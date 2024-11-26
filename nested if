@@ -1,0 +1,31 @@
+#include <stdio.h>
+
+int main() {
+    int num;
+
+    // Ask the user for a number
+    printf("Enter a number: ");
+    scanf("%d", &num);
+
+    // Outer if to check if the number is positive
+    if (num > 0) {
+        printf("The number is positive.\n");
+
+        // Nested if to check if the number is even or odd
+        if (num % 2 == 0) {
+            printf("The number is even.\n");
+        } else {
+            printf("The number is odd.\n");
+        }
+    }
+    // Check if the number is negative
+    else if (num < 0) {
+        printf("The number is negative.\n");
+    }
+    // If the number is neither positive nor negative, it must be zero
+    else {
+        printf("The number is zero.\n");
+    }
+
+    return 0;
+}
