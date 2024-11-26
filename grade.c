@@ -3,11 +3,9 @@
 int main() {
     float score;
 
-    // Get the score from the user
     printf("Enter the score: ");
     scanf("%f", &score);
 
-    // Check the grade based on the score
     if (score >= 90 && score <= 100) {
         printf("Grade: A\n");
     } else if (score >= 80 && score < 90) {
