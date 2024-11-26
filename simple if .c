@@ -2,12 +2,8 @@
 
 int main() {
     int num;
-
-    // Ask the user for a number
     printf("Enter a number: ");
     scanf("%d", &num);
-
-    // Check if the number is positive, negative, or zero
     if (num > 0) {
         printf("The number is positive.\n");
     }
