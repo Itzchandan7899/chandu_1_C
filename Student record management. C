@@ -1,0 +1,154 @@
+#include <stdio.h>
+#include <string.h>
+
+#define MAX_STUDENTS 100
+struct Student {
+    int roll_number;
+    char name[100];
+    float marks;
+};
+void addStudent(struct Student students[], int *studentCount) {
+    if (*studentCount >= MAX_STUDENTS) {
+        printf("Cannot add more students. Maximum limit reached.\n");
+        return;
+    }
+
+    struct Student newStudent;
+    printf("Enter roll number: ");
+    scanf("%d", &newStudent.roll_number);
+    getchar(); // Consume newline
+    printf("Enter name: ");
+    fgets(newStudent.name, sizeof(newStudent.name), stdin);
+    newStudent.name[strcspn(newStudent.name, "\n")] = '\0'; // Remove the newline character
+    printf("Enter marks: ");
+    scanf("%f", &newStudent.marks);
+
+    students[*studentCount] = newStudent;
+    (*studentCount)++;
+    printf("Student added successfully!\n");
+}
+void displayStudents(struct Student students[], int studentCount) {
+    if (studentCount == 0) {
+        printf("No students available!\n");
+        return;
+    }
+
+    printf("\nStudent Records:\n");
+    printf("Roll No\tName\t\tMarks\n");
+    for (int i = 0; i < studentCount; i++) {
+        printf("%d\t%s\t%.2f\n", students[i].roll_number, students[i].name, students[i].marks);
+    }
+}
+void searchStudent(struct Student students[], int studentCount) {
+    int rollNumber;
+    printf("Enter roll number to search: ");
+    scanf("%d", &rollNumber);
+
+    int found = 0;
+    for (int i = 0; i < studentCount; i++) {
+        if (students[i].roll_number == rollNumber) {
+            printf("\nStudent found!\n");
+            printf("Roll No: %d\n", students[i].roll_number);
+            printf("Name: %s\n", students[i].name);
+            printf("Marks: %.2f\n", students[i].marks);
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("Student with roll number %d not found!\n", rollNumber);
+    }
+}
+void editStudent(struct Student students[], int studentCount) {
+    int rollNumber;
+    printf("Enter roll number to edit: ");
+    scanf("%d", &rollNumber);
+
+    int found = 0;
+    for (int i = 0; i < studentCount; i++) {
+        if (students[i].roll_number == rollNumber) {
+            printf("\nEditing record for Roll No: %d\n", students[i].roll_number);
+            getchar(); // Consume newline character
+
+            printf("Enter new name: ");
+            fgets(students[i].name, sizeof(students[i].name), stdin);
+            students[i].name[strcspn(students[i].name, "\n")] = '\0'; // Remove newline character
+
+            printf("Enter new marks: ");
+            scanf("%f", &students[i].marks);
+            printf("Student record updated successfully!\n");
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("Student with roll number %d not found!\n", rollNumber);
+    }
+}
+void deleteStudent(struct Student students[], int *studentCount) {
+    int rollNumber;
+    printf("Enter roll number to delete: ");
+    scanf("%d", &rollNumber);
+
+    int found = 0;
+    for (int i = 0; i < *studentCount; i++) {
+        if (students[i].roll_number == rollNumber) {
+            // Shift all students after the deleted one
+            for (int j = i; j < *studentCount - 1; j++) {
+                students[j] = students[j + 1];
+            }
+            (*studentCount)--; // Decrease student count
+            printf("Student with roll number %d deleted successfully!\n", rollNumber);
+            found = 1;
+            break;
+        }
+    }
+
+    if (!found) {
+        printf("Student with roll number %d not found!\n", rollNumber);
+    }
+}
+int main() {
+    struct Student students[MAX_STUDENTS];
+    int studentCount = 0;
+    int choice;
+
+    do {
+        printf("\nStudent Management System\n");
+        printf("1. Add Student\n");
+        printf("2. Display Students\n");
+        printf("3. Search Student\n");
+        printf("4. Edit Student\n");
+        printf("5. Delete Student\n");
+        printf("6. Exit\n");
+        printf("Enter your choice (1-6): ");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                addStudent(students, &studentCount);
+                break;
+            case 2:
+                displayStudents(students, studentCount);
+                break;
+            case 3:
+                searchStudent(students, studentCount);
+                break;
+            case 4:
+                editStudent(students, studentCount);
+                break;
+            case 5:
+                deleteStudent(students, &studentCount);
+                break;
+            case 6:
+                printf("Exiting program...\n");
+                break;
+            default:
+                printf("Invalid choice! Please try again.\n");
+        }
+    } while (choice != 6);
+
+    return 0;
+}
